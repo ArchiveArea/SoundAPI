@@ -7,14 +7,14 @@ This is a plugin that allows you to send to any vanilla minecraft audio in an ea
 
 First, you have to register the plugin, you can do this during the `onEnable()` of your plugin main class.
 ```php
-public function onEnable() : void {
-    $this->getServer()->getPluginManager()->registerEvents($this, $this);
-    $this->SoundAPI = $this->getServer()->getPluginManager()->getPlugin("SoundAPI");
+protected function onEnable(): void {
+	$this->getServer()->getPluginManager()->registerEvents($this, $this);
+	$this->SoundAPI = $this->getServer()->getPluginManager()->getPlugin("SoundAPI");
 }
 ```
 You can then send the player an sound track with the following code:
 
-[Click here](https://github.com/NhanAZ/SoundAPI/blob/master/README.md#sounds) to see the sound list
+[Click here](https://github.com/nhanaz-pm-pl/SoundAPI/blob/master/README.md#sounds) to see the sound list
 ```php
 $soundName = "sound.name";
 $player = $event->getPlayer();
@@ -22,16 +22,16 @@ $this->SoundAPI->playSound($soundName, $player);
 ```
 I will now send the player a thunderclap sound when they join the server using the code below:
 ```php
-public function onJoin(PlayerJoinEvent $event) {
-    $soundName = "ambient.weather.lightning.impact";
-    $player = $event->getPlayer();
-    $this->SoundAPI->playSound($soundName, $player);
+public function onJoin(PlayerJoinEvent $event): void {
+	$soundName = "ambient.weather.lightning.impact";
+	$player = $event->getPlayer();
+	$this->SoundAPI->playSound($soundName, $player);
 }
 ```
 
 ## How to stop the sound that is playing
 ```php
-#Remember to register the plugin in `onEnable()`
+# Remember to register the plugin in `onEnable()`
 ```
 To stop an sound, follow the steps below
 ```php
@@ -46,11 +46,11 @@ $this->SoundAPI->stopSound($soundName, $stopAll, $player);
 ```
 I will now stop any audio when a player joins the server
 ```php
-public function onJoin(PlayerJoinEvent $event) {
-    $soundName = "ambient.cave";
-    $stopAll = true;
-    $player = $event->getPlayer();
-    $this->SoundAPI->stopSound($soundName, $stopAll, $player);
+public function onJoin(PlayerJoinEvent $event): void {
+	$soundName = "ambient.cave";
+	$stopAll = true;
+	$player = $event->getPlayer();
+	$this->SoundAPI->stopSound($soundName, $stopAll, $player);
 }
 ```
 
@@ -61,13 +61,13 @@ You should use playSound() to make it easier to send sounds to players
 ```
 I'll send players a bell sound when they join the server
 ```php
-public function onJoin(PlayerJoinEvent $event) {
+public function onJoin(PlayerJoinEvent $event): void {
 	$player = $event->getPlayer();
 	$packet = new PlaySoundPacket();
 	$soundName = "block.bell.hit"
-	$x = $player->getX();
-	$y = $player->getY();
-	$z = $player->getZ();
+	$x = $player->getPosition()->getX();
+	$y = $player->getPosition()->getY();
+	$z = $player->getPosition()->getZ();
 	$volume = 1;
 	$pitch = 1;
 
@@ -77,7 +77,7 @@ public function onJoin(PlayerJoinEvent $event) {
 	$packet->z = $z;
 	$packet->volume = $volume;
 	$packet->pitch = $pitch;
-	$player->sendDataPacket($packet);
+	$player->getNetworkSession()->sendDataPacket($packet);
 }
 ```
 

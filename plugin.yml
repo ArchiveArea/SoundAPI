@@ -3,6 +3,5 @@ name: SoundAPI
 version: 0.0.1
 main: NhanAZ\SoundAPI\Main
 api: 4.0.0
-mcpe-protocol: 465
 src-namespace-prefix: NhanAZ\SoundAPI
 ...

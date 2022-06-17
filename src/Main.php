@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace NhanAZ\SoundAPI;
 
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
 use pocketmine\network\mcpe\protocol\PlaySoundPacket;
@@ -12,27 +12,24 @@ use pocketmine\network\mcpe\protocol\StopSoundPacket;
 
 class Main extends PluginBase implements Listener {
 
-	/** @var string */
-	public $soundName;
-	/** @var float */
-	public $x, $y, $z, $volume, $pitch;
-	/** @var bool */
-	public $stopAll;
+	protected string $soundName;
+	protected float $x, $y, $z, $volume, $pitch;
+	protected $stopAll;
 
 	/** An easy way to summon a sound at a player's location */
-	public function playSound(string $soundName, Player $player) {
+	public function playSound(string $soundName, Player $player): void {
 		$packet = new PlaySoundPacket();
 		$packet->soundName = $soundName;
-		$packet->x = $player->getX();
-		$packet->y = $player->getY();
-		$packet->z = $player->getZ();
-		$packet->volume = 1;
-		$packet->pitch = 1;
-		$player->sendDataPacket($packet);
+		$packet->x = $player->getPosition()->getX();
+		$packet->y = $player->getPosition()->getY();
+		$packet->z = $player->getPosition()->getZ();
+		$packet->volume = 1.0;
+		$packet->pitch = 1.0;
+		$player->getNetworkSession()->sendDataPacket($packet);
 	}
 
 	/** A more sophisticated way to summon sounds this way allows you to tweak more parameters */
-	public function playSoundCustom(string $soundName, float $x, float $y, float $z, float $volume, float $pitch, Player $player) {
+	public function playSoundCustom(string $soundName, float $x, float $y, float $z, float $volume, float $pitch, Player $player): void {
 		$packet = new PlaySoundPacket();
 		$packet->soundName = $soundName;
 		$packet->x = $x;
@@ -40,14 +37,14 @@ class Main extends PluginBase implements Listener {
 		$packet->z = $z;
 		$packet->volume = $volume;
 		$packet->pitch = $pitch;
-		$player->sendDataPacket($packet);
+		$player->getNetworkSession()->sendDataPacket($packet);
 	}
 
 	/** Stop a certain sound */
-	public function stopSound(string $soundName, bool $stopAll, Player $player) {
+	public function stopSound(string $soundName, bool $stopAll, Player $player): void {
 		$packet = new StopSoundPacket();
 		$packet->soundName = $soundName;
-		$packer->stopAll = $stopAll;
-		$player->sendDataPacket($packet);
+		$packet->stopAll = $stopAll;
+		$player->getNetworkSession()->sendDataPacket($packet);
 	}
 }
