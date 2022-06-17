@@ -10,8 +10,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\network\mcpe\protocol\PlaySoundPacket;
 use pocketmine\network\mcpe\protocol\StopSoundPacket;
 
-class Main extends PluginBase implements Listener
-{
+class Main extends PluginBase implements Listener {
 
 	/** @var string */
 	public $soundName;
@@ -21,8 +20,7 @@ class Main extends PluginBase implements Listener
 	public $stopAll;
 
 	/** An easy way to summon a sound at a player's location */
-	public function playSound(string $soundName, Player $player)
-	{
+	public function playSound(string $soundName, Player $player) {
 		$packet = new PlaySoundPacket();
 		$packet->soundName = $soundName;
 		$packet->x = $player->getX();
@@ -34,8 +32,7 @@ class Main extends PluginBase implements Listener
 	}
 
 	/** A more sophisticated way to summon sounds this way allows you to tweak more parameters */
-	public function playSoundCustom(string $soundName, float $x, float $y, float $z, float $volume, float $pitch, Player $player)
-	{
+	public function playSoundCustom(string $soundName, float $x, float $y, float $z, float $volume, float $pitch, Player $player) {
 		$packet = new PlaySoundPacket();
 		$packet->soundName = $soundName;
 		$packet->x = $x;
@@ -47,8 +44,7 @@ class Main extends PluginBase implements Listener
 	}
 
 	/** Stop a certain sound */
-	public function stopSound(string $soundName, bool $stopAll, Player $player)
-	{
+	public function stopSound(string $soundName, bool $stopAll, Player $player) {
 		$packet = new StopSoundPacket();
 		$packet->soundName = $soundName;
 		$packer->stopAll = $stopAll;
