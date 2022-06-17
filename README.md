@@ -57,27 +57,19 @@ public function onJoin(PlayerJoinEvent $event): void {
 ## Still sending the player an sound track, but it allows for more customization
 You should use playSound() to make it easier to send sounds to players
 ```php
-#Remember to register the plugin in `onEnable()`
+# Remember to register the plugin in `onEnable()`
 ```
 I'll send players a bell sound when they join the server
 ```php
 public function onJoin(PlayerJoinEvent $event): void {
 	$player = $event->getPlayer();
-	$packet = new PlaySoundPacket();
 	$soundName = "block.bell.hit"
 	$x = $player->getPosition()->getX();
 	$y = $player->getPosition()->getY();
 	$z = $player->getPosition()->getZ();
-	$volume = 1;
-	$pitch = 1;
-
-	$packet->soundName = $soundName;
-	$packet->x = $x;
-	$packet->y = $y;
-	$packet->z = $z;
-	$packet->volume = $volume;
-	$packet->pitch = $pitch;
-	$player->getNetworkSession()->sendDataPacket($packet);
+	$volume = 1.0;
+	$pitch = 1.0;
+	$this->SoundAPI->playSoundCustom($soundName, $x, $y, $z, $volume, $pitch, $player);
 }
 ```
 
@@ -86,8 +78,3 @@ Click on the link below to see the sound list
 
 https://www.digminecraft.com/lists/sound_list_pe.php
 
-# TODO
-- [x] Stop Sound
-- [x] List Sound
-- [x] How to use SoundAPI
-- [ ] etc.
